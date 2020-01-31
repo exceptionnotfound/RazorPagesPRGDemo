@@ -1,0 +1,65 @@
+﻿@page
+@model RazorPagesPRGDemo.SearchPRGModel
+@{
+    ViewData["Title"] = "Search (PRG Style)";
+}
+
+<h1>Search (PRG Style)</h1>
+
+<form method="post">
+    <div class="form-row">
+        <div class="col-md-4">
+            <label asp-for="SelectedCountry">
+                Country:
+            </label>
+            <select class="form-control" asp-for="SelectedCountry" asp-items="Html.GetEnumSelectList<Country>()">
+                <option value="">All</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="StartRange">
+                Start Range:
+            </label>
+            <input class="form-control" type="date" asp-for="StartRange" />
+        </div>
+        <div class="col-md-4">
+            <label asp-for="EndRange">
+                End Range:
+            </label>
+            <input class="form-control" type="date" asp-for="EndRange" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block align-middle">Search</button>
+</form>
+
+@if(Model.HasSearch)
+{
+    <hr />
+    <h2>Results</h2>
+    @if(Model.Results.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Country</th>
+                    <th>Publication Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var result in Model.Results)
+                {
+                    <tr>
+                        <td>@result.ID</td>
+                        <td>@result.Country</td>
+                        <td>@result.PublicationDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <span>No results found!</span>
+    }
+}

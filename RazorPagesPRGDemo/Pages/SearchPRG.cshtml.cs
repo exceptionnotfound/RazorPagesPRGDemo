@@ -10,45 +10,45 @@ using RazorPagesPRGDemo.Repositories;
 
 namespace RazorPagesPRGDemo
 {
-    public class SearchPRGModel : PageModel
+public class SearchPRGModel : PageModel
+{
+    private readonly IMapRepository _mapRepo;
+
+    public SearchPRGModel(IMapRepository mapRepo)
     {
-        private readonly IMapRepository _mapRepo;
+        _mapRepo = mapRepo;
+    }
 
-        public SearchPRGModel(IMapRepository mapRepo)
+    [BindProperty]
+    public Country? SelectedCountry { get; set; }
+
+    [BindProperty]
+    public DateTime? StartRange { get; set; }
+
+    [BindProperty]
+    public DateTime? EndRange { get; set; }
+
+    public List<Map> Results { get; set; }
+    public bool HasSearch { get; set; }
+
+    public void OnGet(Country? country, DateTime? startRange, DateTime? endRange)
+    {
+        SelectedCountry = country;
+        StartRange = startRange;
+        EndRange = endRange;
+
+        if(country.HasValue || (startRange.HasValue && endRange.HasValue))
         {
-            _mapRepo = mapRepo;
-        }
-
-        [BindProperty]
-        public Country? SelectedCountry { get; set; }
-
-        [BindProperty]
-        public DateTime? StartRange { get; set; }
-
-        [BindProperty]
-        public DateTime? EndRange { get; set; }
-
-        public List<Map> Results { get; set; }
-        public bool HasSearch { get; set; }
-
-        public void OnGet(Country? country, DateTime? startRange, DateTime? endRange)
-        {
-            SelectedCountry = country;
-            StartRange = startRange;
-            EndRange = endRange;
-
-            if(country.HasValue || (startRange.HasValue && endRange.HasValue))
-            {
-                HasSearch = true;
-                Results = _mapRepo.Search(country, startRange, endRange);
-            }
-        }
-
-        public IActionResult OnPost()
-        {
-            return RedirectToPage("/SearchPRG", new { country = SelectedCountry, 
-                                                   startRange = StartRange, 
-                                                   endRange = EndRange });
+            HasSearch = true;
+            Results = _mapRepo.Search(country, startRange, endRange);
         }
     }
+
+    public IActionResult OnPost()
+    {
+        return RedirectToPage("/SearchPRG", new { country = SelectedCountry, 
+                                                startRange = StartRange, 
+                                                endRange = EndRange });
+    }
+}
 }

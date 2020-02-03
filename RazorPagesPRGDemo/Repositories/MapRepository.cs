@@ -57,20 +57,20 @@ namespace RazorPagesPRGDemo.Repositories
             };
         }
 
-        public List<Map> Search(Country? country, DateTime? startRange, DateTime? endRange)
-        {
-            var allMaps = GetAll().AsQueryable();
+public List<Map> Search(Country? country, DateTime? startRange, DateTime? endRange)
+{
+    var allMaps = GetAll().AsQueryable();
 
-            if(country.HasValue)
-            {
-                allMaps = allMaps.Where(x => x.Country == country);
-            }
-            if(startRange.HasValue && endRange.HasValue)
-            {
-                allMaps = allMaps.Where(x => x.PublicationDate >= startRange.Value && x.PublicationDate <= endRange.Value);
-            }
+    if(country.HasValue)
+    {
+        allMaps = allMaps.Where(x => x.Country == country);
+    }
+    if(startRange.HasValue && endRange.HasValue)
+    {
+        allMaps = allMaps.Where(x => x.PublicationDate >= startRange.Value && x.PublicationDate <= endRange.Value);
+    }
 
-            return allMaps.ToList();
-        }
+    return allMaps.ToList();
+}
     }
 }

@@ -1,4 +1,4 @@
-##RazorPagesPRGDemo
+# RazorPagesPRGDemo
 
 This example project is used in the following blog posts:
 
